@@ -6,7 +6,7 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\extesions\filesystem\adapter;
+namespace li3_filesystem\extensions\storage\filesystem\adapter;
 
 use lithium\util\Set;
 
