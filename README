@@ -1,0 +1,2 @@
+Currently only an mindflow how uploaded files should be handled.
+Session/Cache like handling seems to be nice choice to go, as it's easy to change.
