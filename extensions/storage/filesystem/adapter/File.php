@@ -8,7 +8,10 @@
 
 namespace li3_filesystem\extensions\storage\filesystem\adapter;
 
-use lithium\util\Set;
+use SplFileInfo;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use lithium\core\Libraries;
 
 /**
  * A File Filesystem adapter implementation. Requires
@@ -24,8 +27,8 @@ use lithium\util\Set;
  * {{{
  * FileSystem::config(array(
  *     'filesystem-config-name' => array(
- *         'adapter' => 'Memcached',
- *         'upload_dir' => '\webroot\uploads'
+ *         'adapter' => 'File',
+ *         'path' => '/webroot/img',
  *     )
  * ));
  * }}}
@@ -43,7 +46,10 @@ class File extends \lithium\core\Object {
 	 *        - 'path' : Path where uploaded files live `LITHIUM_APP_PATH . '/webroot/uploads'`.
 	 */
 	public function __construct(array $config = array()) {
-		
+		$defaults = array(
+			'path' => Libraries::get(true, 'path') . 'webroot/img/',
+		);
+		parent::__construct($config + $defaults);
 	}
 	
 	public function write() {

@@ -55,7 +55,7 @@ class FileSystem extends \lithium\core\Adaptable {
 	 *
 	 * @var string Dot-delimited path.
 	 */
-	//protected static $_strategies = 'strategy.storage.cache';
+	//protected static $_strategies = 'strategy.storage.filesystem';
 	
 	/**
 	 * Writes file from tmp to the specified filesystem configuration.
@@ -69,6 +69,12 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement
 	 */
 	public static function write($name, $filePath, $data, array $options = array()) {
+		$options += array('conditions' => null, 'strategies' => true);
+		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
 		
 	}
 
