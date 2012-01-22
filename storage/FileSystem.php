@@ -6,7 +6,7 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\extensions\storage;
+namespace li3_filesystem\storage;
 
 /**
  * The `FileSystem` static class provides a consistent interface to configure and utilize the different
@@ -32,8 +32,6 @@ namespace li3_filesystem\extensions\storage;
  * @see lithium\core\Adaptable
  * @see app\extensions\storage\filesystem\adapter
  */
-
-
 class FileSystem extends \lithium\core\Adaptable {
 
 	/**
@@ -51,60 +49,62 @@ class FileSystem extends \lithium\core\Adaptable {
 	protected static $_adapters = 'adapter.storage.filesystem';
 
 	/**
-	 * Libraries::locate() compatible path to strategies for this class.
-	 *
-	 * @var string Dot-delimited path.
-	 */
-	//protected static $_strategies = 'strategy.storage.filesystem';
-	
-	/**
 	 * Writes file from tmp to the specified filesystem configuration.
 	 *
 	 * @param string $name Configuration to be used for writing
-	 * @param string $filePath a full path with filename and extension to be written
+	 * @param string $filename a full path with filename and extension to be written
 	 * @param mixed $data usualy an output of file field
 	 * @param mixed $options Options for the method, filters and strategies.
 	 * @return boolean True on successful FileSystem write, false otherwise
 	 * @filter This method may be filtered.
-	 * @TODO implement
+	 * @TODO implement configurations
 	 */
-	public static function write($name, $filePath, $data, array $options = array()) {
-		$options += array('conditions' => null, 'strategies' => true);
-		$settings = static::config();
+	public static function write($name, $filename, $data, array $options = array()) {
+        $settings = static::config();
 
-		if (!isset($settings[$name])) {
-			return false;
-		}
-		
+        if (!isset($settings[$name])) {
+            return false;
+        }
+
+        $method = static::adapter($name)->write($filename, $data, $options);
+        $params = compact('filename', 'data');
+        return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
 	/**
 	 * Reads file from the specified filesystem configuration
 	 *
 	 * @param string $name Configuration to be used for reading
-	 * @param mixed $filePath a full path with filename and extension to be retrieved
+	 * @param mixed $filename a full path with filename and extension to be retrieved
 	 * @param mixed $options Options for the method and strategies.
 	 * @return mixed Read results on successful filesystem read, null otherwise
 	 * @filter This method may be filtered.
 	 * @TODO implement
 	 */
-	public static function read($name, $filePath, array $options = array()) {
-		
+	public static function read($name, $filename, array $options = array()) {
+	    $settings = static::config();
+
+	    if(!isset($settings[$name])) {
+            return false;
+	    }
+
+	  $method = static::adapter($name)->read($filename, $options);
+	  $params = compact('filename');
+	  return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
-	
+
 	/**
 	 * Deletes file from the specified filesystem configuration
 	 *
 	 * @param string $name Configuration to be used for deletion
-	 * @param mixed $filePath a full path with filename and extension to be deleted
+	 * @param mixed $filename a full path with filename and extension to be deleted
 	 * @param mixed $options Options for the method and strategies.
 	 * @return boolean True on successful deletion, false otherwise
 	 * @filter This method may be filtered.
 	 * @TODO implement
 	 */
-	public static function delete($name, $filePath, array $options = array()) {
-		
-	}
+	public static function delete($name, $filename, array $options = array()) {
 
+	}
 }
 ?>
