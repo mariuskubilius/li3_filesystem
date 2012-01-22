@@ -35,7 +35,6 @@ use lithium\core\Libraries;
  */
 
 class File extends \lithium\core\Object {
-	
 	/**
 	 * Class constructor.
 	 *
@@ -51,17 +50,23 @@ class File extends \lithium\core\Object {
 		);
 		parent::__construct($config + $defaults);
 	}
-	
-	public function write() {
-		
+
+    /**
+     * @param string $filename
+     * @param string $data
+     * @param array $options
+     * @return boolean
+     */
+	public function write($filename, $data = null, array $options = array()) {
+	  return (file_put_contents($filename, $data) ? true : false);
 	}
-	
-	public function read() {
-		
+
+	public function read($filename) {
+
 	}
-	
-	public function delete() {
-		
+
+	public function delete($filename) {
+
 	}
 }
 ?>
