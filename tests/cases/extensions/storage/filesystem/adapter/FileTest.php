@@ -53,7 +53,7 @@ class FileTest extends \lithium\test\Unit {
         $this->assertEqual($data, file_get_contents($filename));
 	}
 
-	public function testReadNonexistantFile() {
+	public function testReadNonexistentFile() {
 	    $filename = '/path/to/no/file';
 	    $this->assertTrue($this->file->read($filename) === FALSE);
 	}
@@ -70,7 +70,7 @@ class FileTest extends \lithium\test\Unit {
 
 	public function testReadExistingFile() {
         $filename = $this->_testDirectory . '/test_file';
-        $data = 'Some test conent';
+        $data = 'Some test content';
 
         file_put_contents($filename, $data);
 
@@ -78,8 +78,20 @@ class FileTest extends \lithium\test\Unit {
         $this->assertEqual($data, $results);
 	}
 
-	public function testDeleteFile() {
+	public function testDeleteNonexistentFile() {
+        $filename = '/path/to/no/file';
+        $this->assertTrue($this->file->delete($filename) === FALSE);
+	}
 
+	public function testDeleteExistingFile() {
+        $filename = $this->_testDirectory . '/test_file';
+        $data = 'Some content';
+
+        file_put_contents($filename, $data);
+
+        $this->assertTrue(file_exists($filename));
+        $this->file->delete($filename);
+        $this->assertFalse(file_exists($filename));
 	}
 }
 ?>

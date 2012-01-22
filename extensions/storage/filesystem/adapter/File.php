@@ -73,8 +73,16 @@ class File extends \lithium\core\Object {
 	    return false;
 	}
 
+    /**
+     * @param string $filename
+     * @return boolean
+     */
 	public function delete($filename) {
+	    if(file_exists($filename)) {
+            return unlink($filename);
+	    }
 
+        return false;
 	}
 }
 ?>
