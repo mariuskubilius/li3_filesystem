@@ -39,22 +39,43 @@ class FileTest extends \lithium\test\Unit {
 	}
 
 	public function testCreateEmptyFile() {
-	    $path = $this->_testDirectory . '/test_file';
-        $this->file->write($path);
+	    $filename = $this->_testDirectory . '/test_file';
+        $this->file->write($filename);
 	}
 
 	public function testCreateFileWithContent() {
-        $path = $this->_testDirectory . '/test_file';
+        $filename = $this->_testDirectory . '/test_file';
         $data = 'Some content';
 
-        $this->file->write($path, $data);
+        $this->file->write($filename, $data);
 
-        $this->assertTrue(file_exists($path));
-        $this->assertEqual($data, file_get_contents($path));
+        $this->assertTrue(file_exists($filename));
+        $this->assertEqual($data, file_get_contents($filename));
 	}
 
-	public function testReadFile() {
+	public function testReadNonexistantFile() {
+	    $filename = '/path/to/no/file';
+	    $this->assertTrue($this->file->read($filename) === FALSE);
+	}
 
+	public function testReadEmptyFile() {
+        $filename = $this->_testDirectory . '/test_file';
+        $data = '';
+
+        file_put_contents($filename, $data);
+
+        $results = $this->file->read($filename);
+        $this->assertEqual($data, $results);
+	}
+
+	public function testReadExistingFile() {
+        $filename = $this->_testDirectory . '/test_file';
+        $data = 'Some test conent';
+
+        file_put_contents($filename, $data);
+
+        $results = $this->file->read($filename);
+        $this->assertEqual($data, $results);
 	}
 
 	public function testDeleteFile() {

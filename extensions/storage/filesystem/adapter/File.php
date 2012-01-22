@@ -61,8 +61,16 @@ class File extends \lithium\core\Object {
 	  return (file_put_contents($filename, $data) ? true : false);
 	}
 
+    /**
+     * @param string $filename
+     * @return string|boolean
+     */
 	public function read($filename) {
+	    if(file_exists($filename)) {
+            return file_get_contents($filename);
+	    }
 
+	    return false;
 	}
 
 	public function delete($filename) {

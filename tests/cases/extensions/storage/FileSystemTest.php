@@ -21,7 +21,7 @@ class FileSystemTest extends \lithium\test\Unit {
 	public function tearDown() {
 		FileSystem::reset();
 	}
-	
+
 	public function testBasicFileSystemConfig() {
 		$result = FileSystem::config();
 		$this->assertFalse($result);
@@ -56,6 +56,5 @@ class FileSystemTest extends \lithium\test\Unit {
 		$expected = $config;
 		$this->assertEqual($expected, $result);
 	}
-	
 }
 ?>
