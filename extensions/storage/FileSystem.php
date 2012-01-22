@@ -48,15 +48,8 @@ class FileSystem extends \lithium\core\Adaptable {
 	 *
 	 * @var string Dot-delimited path.
 	 */
-	protected static $_adapters = 'adapter.storage.filesystem';
+	protected static $_adapters = 'storage.filesystem.adapter';
 
-	/**
-	 * Libraries::locate() compatible path to strategies for this class.
-	 *
-	 * @var string Dot-delimited path.
-	 */
-	//protected static $_strategies = 'strategy.storage.filesystem';
-	
 	/**
 	 * Writes file from tmp to the specified filesystem configuration.
 	 *
@@ -66,16 +59,14 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @param mixed $options Options for the method, filters and strategies.
 	 * @return boolean True on successful FileSystem write, false otherwise
 	 * @filter This method may be filtered.
-	 * @TODO implement
+	 * @TODO implement configurations
 	 */
 	public static function write($name, $filePath, $data, array $options = array()) {
-		$options += array('conditions' => null, 'strategies' => true);
-		$settings = static::config();
+        $settings = static::config();
 
-		if (!isset($settings[$name])) {
-			return false;
-		}
-		
+        $method = static::adapter($name)->write($key, $data, $options);
+        $params = compact('filePath', 'data');
+        return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
 	/**
@@ -89,9 +80,8 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement
 	 */
 	public static function read($name, $filePath, array $options = array()) {
-		
 	}
-	
+
 	/**
 	 * Deletes file from the specified filesystem configuration
 	 *
@@ -103,8 +93,7 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement
 	 */
 	public static function delete($name, $filePath, array $options = array()) {
-		
-	}
 
+	}
 }
 ?>

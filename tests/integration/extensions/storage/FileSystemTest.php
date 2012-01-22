@@ -6,21 +6,17 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\tests\cases\extensions\storage;
+namespace li3_filesystem\tests\integration\extensions\storage;
 
-//use SplFileInfo;
-//use lithium\core\Libraries;
 use li3_filesystem\extensions\storage\FileSystem;
 
-class FileSystemTest extends \lithium\test\Unit {
-    public $_config = array();
-
+class FileSystemTest extends \lithium\test\Integration {
 	public function setUp() {
-		FileSystem::reset();
+	    FileSystem::reset();
 	}
 
 	public function tearDown() {
-		FileSystem::reset();
+        FileSystem::reset();
 	}
 
 	public function testBasicFileSystemConfig() {
@@ -56,6 +52,21 @@ class FileSystemTest extends \lithium\test\Unit {
 		$result = FileSystem::config();
 		$expected = $config;
 		$this->assertEqual($expected, $result);
+	}
+
+	public function testFileBasedConfig() {
+        $config = array('default' => array('adapter' => 'File'));
+        FileSystem::config($config);
+
+        $result = FileSystem::config();
+        $this->assertEqual($config, $result);
+
+        $filename = 'test_file';
+        $data = 'Some test content';
+
+        $this->assertTrue(FileSystem::write('default', $filename, $data));
+        $this->assertEqual($data, FileSystem::read('default', $filename));
+        $this->assertTrue(FileSystem::delete('default', $filename));
 	}
 }
 ?>
