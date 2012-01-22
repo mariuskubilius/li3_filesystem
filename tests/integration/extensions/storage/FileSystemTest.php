@@ -13,6 +13,7 @@ namespace li3_filesystem\tests\cases\extensions\storage;
 use li3_filesystem\extensions\storage\FileSystem;
 
 class FileSystemTest extends \lithium\test\Unit {
+    public $_config = array();
 
 	public function setUp() {
 		FileSystem::reset();
