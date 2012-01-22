@@ -55,7 +55,11 @@ class FileSystemTest extends \lithium\test\Integration {
 	}
 
 	public function testFileSystemWrite() {
-        $config = array('default' => array('adapter' => 'File', 'path' => '/tmp'));
+        $config = array('default' => array(
+            'adapter' => 'File',
+            'filters' => array(),
+            'path' => '/tmp'
+        ));
         FileSystem::config($config);
 
         $result = FileSystem::config();
@@ -66,6 +70,27 @@ class FileSystemTest extends \lithium\test\Integration {
 
         $this->assertTrue(FileSystem::write('default', $filename, $data));
         $this->assertFalse(FileSystem::write('non_existing', $filename, $data));
+	}
+
+	public function testFileSystemRead() {
+        $config = array('default' => array(
+            'adapter' => 'File',
+            'filters' => array(),
+            'path' => '/tmp'
+        ));
+
+        FileSystem::config($config);
+        $result = FileSystem::config();
+        $this->assertEqual($config, $result);
+
+        $filename = 'test_file';
+        $data = 'Some Test content';
+
+        $result = FileSystem::write('default', $filename, $data);
+	    $this->assertTrue($result);
+
+	    $result = FileSystem::read('default', $filename);
+	    $this->assertEqual($data, $result);
 	}
 }
 ?>

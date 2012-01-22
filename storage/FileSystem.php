@@ -82,6 +82,15 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement
 	 */
 	public static function read($name, $filename, array $options = array()) {
+	    $settings = static::config();
+
+	    if(!isset($settings[$name])) {
+            return false;
+	    }
+
+	  $method = static::adapter($name)->read($filename, $options);
+	  $params = compact('filename');
+	  return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
 	/**
