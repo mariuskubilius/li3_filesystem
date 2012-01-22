@@ -6,9 +6,9 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\tests\integration\extensions\storage;
+namespace li3_filesystem\tests\integration\storage;
 
-use li3_filesystem\extensions\storage\FileSystem;
+use li3_filesystem\storage\FileSystem;
 
 class FileSystemTest extends \lithium\test\Integration {
 	public function setUp() {
@@ -54,8 +54,8 @@ class FileSystemTest extends \lithium\test\Integration {
 		$this->assertEqual($expected, $result);
 	}
 
-	public function testFileBasedConfig() {
-        $config = array('default' => array('adapter' => 'File'));
+	public function testFileSystemWrite() {
+        $config = array('default' => array('adapter' => 'File', 'path' => '/tmp'));
         FileSystem::config($config);
 
         $result = FileSystem::config();
@@ -65,8 +65,7 @@ class FileSystemTest extends \lithium\test\Integration {
         $data = 'Some test content';
 
         $this->assertTrue(FileSystem::write('default', $filename, $data));
-        $this->assertEqual($data, FileSystem::read('default', $filename));
-        $this->assertTrue(FileSystem::delete('default', $filename));
+        $this->assertFalse(FileSystem::write('non_existing', $filename, $data));
 	}
 }
 ?>
