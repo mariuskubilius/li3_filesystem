@@ -55,7 +55,7 @@ class File extends \lithium\core\Object {
      * @param string $filename
      * @param string $data
      * @param array $options
-     * @return closure Function returning boolean `true` on successful write, `false` otherwise.
+     * @return mixed returns the number of bytes that were written to the file or false otherwise.
      */
 	public function write($filename, $data, array $options = array()) {
 	    $path = $this->_config['path'];
