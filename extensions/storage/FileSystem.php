@@ -48,7 +48,6 @@ class FileSystem extends \lithium\core\Adaptable {
 	 *
 	 * @var string Dot-delimited path.
 	 */
-<<<<<<< HEAD:storage/FileSystem.php
 	protected static $_adapters = 'adapter.storage.filesystem';
 	
 	/**
@@ -57,10 +56,7 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @var string Dot-delimited path.
 	 */
 	protected static $_strategies = 'strategy.storage.filesystem';
-=======
-	protected static $_adapters = 'storage.filesystem.adapter';
 
->>>>>>> parent of b58668d... restructured plugin to work better with adapters and switched adapter to return closures so filters work:extensions/storage/FileSystem.php
 	/**
 	 * Writes file from tmp to the specified filesystem configuration.
 	 *
@@ -72,7 +68,6 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @filter This method may be filtered.
 	 * @TODO implement configurations
 	 */
-<<<<<<< HEAD:storage/FileSystem.php
 	public static function write($name, $filename, $data, array $options = array()) {
         $options += array('strategies' => true);
         $settings = static::config();
@@ -89,14 +84,7 @@ class FileSystem extends \lithium\core\Adaptable {
 		$method = static::adapter($name)->write($filename, $data, $options);
 		$params = compact('filename', 'data');
 		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
-=======
-	public static function write($name, $filePath, $data, array $options = array()) {
-        $settings = static::config();
 
-        $method = static::adapter($name)->write($key, $data, $options);
-        $params = compact('filePath', 'data');
-        return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
->>>>>>> parent of b58668d... restructured plugin to work better with adapters and switched adapter to return closures so filters work:extensions/storage/FileSystem.php
 	}
 
 	/**
@@ -109,7 +97,6 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @filter This method may be filtered.
 	 * @TODO implement
 	 */
-<<<<<<< HEAD:storage/FileSystem.php
 	public static function read($name, $filename, array $options = array()) {
 	    $settings = static::config();
 
@@ -120,9 +107,6 @@ class FileSystem extends \lithium\core\Adaptable {
 	  $method = static::adapter($name)->read($filename, $options);
 	  $params = compact('filename');
 	  return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
-=======
-	public static function read($name, $filePath, array $options = array()) {
->>>>>>> parent of b58668d... restructured plugin to work better with adapters and switched adapter to return closures so filters work:extensions/storage/FileSystem.php
 	}
 
 	/**
