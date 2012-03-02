@@ -55,25 +55,10 @@ class File extends \lithium\core\Object {
      * @param string $filename
      * @param string $data
      * @param array $options
-<<<<<<< HEAD:extensions/adapter/storage/filesystem/File.php
      * @return mixed returns filename or false otherwise.
      */
-	public function write($filename, $data, array $options = array()) {
-	    $path = $this->_config['path'];
-	    return function($self, $params) use (&$path) {
-            $data = $params['data'];
-            $path = "{$path}/{$params['filename']}";
-	        if(file_put_contents($path, $data)) {
-	        	return $params['filename'];
-	        }
-			return false;
-	    };
-=======
-     * @return boolean
-     */
 	public function write($filename, $data = null, array $options = array()) {
-	  return (file_put_contents($filename, $data) ? true : false);
->>>>>>> parent of b58668d... restructured plugin to work better with adapters and switched adapter to return closures so filters work:extensions/storage/filesystem/adapter/File.php
+		return (file_put_contents($filename, $data) ? true : false);
 	}
 
     /**
