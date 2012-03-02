@@ -55,14 +55,17 @@ class File extends \lithium\core\Object {
      * @param string $filename
      * @param string $data
      * @param array $options
-     * @return closure Function returning boolean `true` on successful write, `false` otherwise.
+     * @return mixed returns filename or false otherwise.
      */
 	public function write($filename, $data, array $options = array()) {
 	    $path = $this->_config['path'];
 	    return function($self, $params) use (&$path) {
             $data = $params['data'];
             $path = "{$path}/{$params['filename']}";
-	        return file_put_contents($path, $data);
+	        if(file_put_contents($path, $data)) {
+	        	return $params['filename'];
+	        }
+			return false;
 	    };
 	}
 
