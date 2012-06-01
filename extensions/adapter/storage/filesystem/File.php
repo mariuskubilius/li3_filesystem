@@ -1,4 +1,7 @@
 <?php
+
+namespace li3_filesystem\extensions\adapter\storage\filesystem;
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
@@ -6,11 +9,6 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\extensions\adapter\storage\filesystem;
-
-use SplFileInfo;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use lithium\core\Libraries;
 
 /**
@@ -35,6 +33,7 @@ use lithium\core\Libraries;
  */
 
 class File extends \lithium\core\Object {
+
 	/**
 	 * Class constructor.
 	 *
@@ -46,57 +45,66 @@ class File extends \lithium\core\Object {
 	 */
 	public function __construct(array $config = array()) {
 		$defaults = array(
-			'path' => Libraries::get(true, 'path') . '/webroot/uploads',
+			'path' => Libraries::get(true, 'path') . '/webroot/uploads'
 		);
 		parent::__construct($config + $defaults);
 	}
 
-    /**
+	/**
      * @param string $filename
      * @param string $data
      * @param array $options
      * @return mixed returns filename or false otherwise.
      */
 	public function write($filename, $data, array $options = array()) {
-	    $path = $this->_config['path'];
-	    return function($self, $params) use (&$path) {
-            $data = $params['data'];
-            $path = "{$path}/{$params['filename']}";
-	        if(file_put_contents($path, $data)) {
-	        	return $params['filename'];
-	        }
+		$path = $this->_config['path'];
+
+		return function($self, $params) use (&$path) {
+			$data = $params['data'];
+			$path = "{$path}/{$params['filename']}";
+
+			if (file_put_contents($path, $data)) {
+				return $params['filename'];
+			}
+
 			return false;
-	    };
+		};
 	}
 
-    /**
+	/**
      * @param string $filename
      * @return string|boolean
      */
 	public function read($filename) {
-        $path = $this->_config['path'];
-        return function($self, $params) use (&$path) {
-            $path = "{$path}/{$params['filename']}";
-	        if(file_exists($path)) {
-                return file_get_contents($path);
-	        }
-	        return false;
-	    };
+		$path = $this->_config['path'];
+
+		return function($self, $params) use (&$path) {
+			$path = "{$path}/{$params['filename']}";
+
+			if (file_exists($path)) {
+				return file_get_contents($path);
+			}
+
+			return false;
+		};
 	}
 
-    /**
+	/**
      * @param string $filename
      * @return boolean
      */
 	public function delete($filename) {
-	    $path = $this->_config['path'];
-	    return function($self, $params) use (&$path) {
-	        $path = "{$path}/{$params['filename']}";
-	        if(file_exists($path)) {
-                return unlink($path);
-	        }
-            return false;
-        };
+		$path = $this->_config['path'];
+		return function($self, $params) use (&$path) {
+			$path = "{$path}/{$params['filename']}";
+
+			if (file_exists($path)) {
+				return unlink($path);
+			}
+
+			return false;
+		};
 	}
 }
+
 ?>
