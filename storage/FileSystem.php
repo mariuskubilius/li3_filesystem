@@ -122,7 +122,12 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @filter This method may be filtered.
 	 * @TODO implement
 	 */
-	public static function delete($name, $filename, array $options = array()) {}
+	public static function delete($name, $filename, array $options = array()) {
+		$settings = static::config();
+		$method   = static::adapter($name)->delete($filename);
+		$params   = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+	}
 }
 
 ?>
