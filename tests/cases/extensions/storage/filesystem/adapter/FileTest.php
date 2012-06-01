@@ -1,4 +1,7 @@
 <?php
+
+namespace li3_filesystem\tests\cases\extensions\storage\filesystem\adapter;
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
@@ -6,16 +9,14 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\tests\cases\extensions\storage\filesystem\adapter;
-
 use SplFileInfo;
-use lithium\core\Libraries;
 use li3_filesystem\extensions\storage\filesystem\adapter\File;
 
 class FileTest extends \lithium\test\Unit {
-    protected $_testDirectory = '/tmp';
 
-    /**
+	protected $_testDirectory = '/tmp';
+
+	/**
 	 * Skip the test if the default File adapter read/write path is not read/write-able.
 	 *
 	 * @return void
@@ -32,66 +33,67 @@ class FileTest extends \lithium\test\Unit {
 	}
 
 	public function tearDown() {
-		if(file_exists($this->_testDirectory . '/test_file')) {
-            unlink($this->_testDirectory . '/test_file');
+		if (file_exists($this->_testDirectory . '/test_file')) {
+			unlink($this->_testDirectory . '/test_file');
 		}
 		unset($this->file);
 	}
 
 	public function testCreateEmptyFile() {
-	    $filename = $this->_testDirectory . '/test_file';
-        $this->file->write($filename);
+		$filename = $this->_testDirectory . '/test_file';
+		$this->file->write($filename);
 	}
 
 	public function testCreateFileWithContent() {
-        $filename = $this->_testDirectory . '/test_file';
-        $data = 'Some content';
+		$filename = $this->_testDirectory . '/test_file';
+		$data = 'Some content';
 
-        $this->file->write($filename, $data);
+		$this->file->write($filename, $data);
 
-        $this->assertTrue(file_exists($filename));
-        $this->assertEqual($data, file_get_contents($filename));
+		$this->assertTrue(file_exists($filename));
+		$this->assertEqual($data, file_get_contents($filename));
 	}
 
 	public function testReadNonexistentFile() {
-	    $filename = '/path/to/no/file';
-	    $this->assertTrue($this->file->read($filename) === FALSE);
+		$filename = '/path/to/no/file';
+		$this->assertFalse($this->file->read($filename));
 	}
 
 	public function testReadEmptyFile() {
-        $filename = $this->_testDirectory . '/test_file';
-        $data = '';
+		$filename = $this->_testDirectory . '/test_file';
+		$data     = '';
 
-        file_put_contents($filename, $data);
+		file_put_contents($filename, $data);
 
-        $results = $this->file->read($filename);
-        $this->assertEqual($data, $results);
+		$results = $this->file->read($filename);
+		$this->assertEqual($data, $results);
 	}
 
 	public function testReadExistingFile() {
-        $filename = $this->_testDirectory . '/test_file';
-        $data = 'Some test content';
+		$filename = $this->_testDirectory . '/test_file';
+		$data     = 'Some test content';
 
-        file_put_contents($filename, $data);
+		file_put_contents($filename, $data);
 
-        $results = $this->file->read($filename);
-        $this->assertEqual($data, $results);
+		$results = $this->file->read($filename);
+		$this->assertEqual($data, $results);
 	}
 
 	public function testDeleteNonexistentFile() {
-        $filename = '/path/to/no/file';
-        $this->assertTrue($this->file->delete($filename) === FALSE);
+		$filename = '/path/to/no/file';
+		$this->assertFalse($this->file->delete($filename));
 	}
 
 	public function testDeleteExistingFile() {
-        $filename = $this->_testDirectory . '/test_file';
-        $data = 'Some content';
+		$filename = $this->_testDirectory . '/test_file';
+		$data     = 'Some content';
 
-        file_put_contents($filename, $data);
+		file_put_contents($filename, $data);
 
-        $this->assertTrue(file_exists($filename));
-        $this->file->delete($filename);
-        $this->assertFalse(file_exists($filename));
+		$this->assertTrue(file_exists($filename));
+		$this->file->delete($filename);
+		$this->assertFalse(file_exists($filename));
 	}
 }
+
 ?>
