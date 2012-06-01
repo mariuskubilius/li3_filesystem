@@ -1,12 +1,13 @@
 <?php
+
+namespace li3_filesystem\storage;
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
  * @copyright     Copyright 2012, Little Boy Genius (http://www.littleboygenius.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
-
-namespace li3_filesystem\storage;
 
 /**
  * The `FileSystem` static class provides a consistent interface to configure and utilize the different
@@ -32,6 +33,7 @@ namespace li3_filesystem\storage;
  * @see lithium\core\Adaptable
  * @see app\extensions\storage\filesystem\adapter
  */
+
 class FileSystem extends \lithium\core\Adaptable {
 
 	/**
@@ -47,13 +49,14 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @var string Dot-delimited path.
 	 */
 	protected static $_adapters = 'adapter.storage.filesystem';
-	
+
 	/**
 	 * Libraries::locate() compatible path to strategies for this class.
 	 *
 	 * @var string Dot-delimited path.
 	 */
 	protected static $_strategies = 'strategy.storage.filesystem';
+
 	/**
 	 * Writes file from tmp to the specified filesystem configuration.
 	 *
@@ -66,18 +69,22 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement configurations
 	 */
 	public static function write($name, $filename, $data, array $options = array()) {
-        $options += array('strategies' => true);
-        $settings = static::config();
+		$options += array('strategies' => true);
+		$settings = static::config();
 
-        if (!isset($settings[$name])) {
-            return false;
-        }
-		
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
 		if ($options['strategies']) {
 			$options = array('filename' => $filename);
 			$data = static::applyStrategies(__FUNCTION__, $name, $data, $options);
 		}
-		if(!$data) return false;
+
+		if (!$data) {
+			return false;
+		}
+
 		$method = static::adapter($name)->write($filename, $data, $options);
 		$params = compact('filename', 'data');
 		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
@@ -94,15 +101,15 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @TODO implement
 	 */
 	public static function read($name, $filename, array $options = array()) {
-	    $settings = static::config();
+		$settings = static::config();
 
-	    if(!isset($settings[$name])) {
-            return false;
-	    }
+		if (!isset($settings[$name])) {
+			return false;
+		}
 
-	  $method = static::adapter($name)->read($filename, $options);
-	  $params = compact('filename');
-	  return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+		$method = static::adapter($name)->read($filename, $options);
+		$params = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
 	/**
@@ -115,8 +122,7 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @filter This method may be filtered.
 	 * @TODO implement
 	 */
-	public static function delete($name, $filename, array $options = array()) {
-
-	}
+	public static function delete($name, $filename, array $options = array()) {}
 }
+
 ?>
