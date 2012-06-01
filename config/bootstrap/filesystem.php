@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
@@ -10,14 +11,15 @@ use li3_filesystem\storage\FileSystem;
 use lithium\core\Libraries;
 
 FileSystem::config(array(
-    'default' => array(
-        'adapter' => 'File',
-        'strategies' => array(
-        	'FileUpload' => array(
-				'allowed' => array('png', 'jpg'),	
-			),
+	'default' => array(
+		'adapter' => 'File',
+			'strategies' => array(
+				'FileUpload' => array(
+					'allowed' => array('png', 'jpg')
+			)
 		),
-        'path' => Libraries::get(true, 'path') . '/webroot/img'
-    ),
+		'path' => Libraries::get(true, 'path') . '/webroot/img'
+	)
 ));
+
 ?>

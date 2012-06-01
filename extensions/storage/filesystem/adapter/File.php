@@ -1,4 +1,7 @@
 <?php
+
+namespace li3_filesystem\extensions\storage\filesystem\adapter;
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
@@ -6,11 +9,6 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\extensions\storage\filesystem\adapter;
-
-use SplFileInfo;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use lithium\core\Libraries;
 
 /**
@@ -35,6 +33,7 @@ use lithium\core\Libraries;
  */
 
 class File extends \lithium\core\Object {
+
 	/**
 	 * Class constructor.
 	 *
@@ -46,12 +45,12 @@ class File extends \lithium\core\Object {
 	 */
 	public function __construct(array $config = array()) {
 		$defaults = array(
-			'path' => Libraries::get(true, 'path') . 'webroot/img/',
+			'path' => Libraries::get(true, 'path') . 'webroot/img/'
 		);
 		parent::__construct($config + $defaults);
 	}
 
-    /**
+	/**
      * @param string $filename
      * @param string $data
      * @param array $options
@@ -61,28 +60,29 @@ class File extends \lithium\core\Object {
 		return (file_put_contents($filename, $data) ? true : false);
 	}
 
-    /**
+	/**
      * @param string $filename
      * @return string|boolean
      */
 	public function read($filename) {
-	    if(file_exists($filename)) {
-            return file_get_contents($filename);
-	    }
+		if (file_exists($filename)) {
+			return file_get_contents($filename);
+		}
 
-	    return false;
+		return false;
 	}
 
-    /**
+	/**
      * @param string $filename
      * @return boolean
      */
 	public function delete($filename) {
-	    if(file_exists($filename)) {
-            return unlink($filename);
-	    }
+		if (file_exists($filename)) {
+			return unlink($filename);
+		}
 
-        return false;
+		return false;
 	}
 }
+
 ?>

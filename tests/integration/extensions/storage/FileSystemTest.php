@@ -1,4 +1,7 @@
 <?php
+
+namespace li3_filesystem\tests\integration\extensions\storage;
+
 /**
  * Lithium Filesystem: managing file uploads the easy way
  *
@@ -6,17 +9,16 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-namespace li3_filesystem\tests\integration\extensions\storage;
-
 use li3_filesystem\extensions\storage\FileSystem;
 
 class FileSystemTest extends \lithium\test\Integration {
+
 	public function setUp() {
-	    FileSystem::reset();
+		FileSystem::reset();
 	}
 
 	public function tearDown() {
-        FileSystem::reset();
+		FileSystem::reset();
 	}
 
 	public function testBasicFileSystemConfig() {
@@ -28,7 +30,7 @@ class FileSystemTest extends \lithium\test\Integration {
 		$this->assertNull($result);
 
 		$expected = $config;
-		$result = FileSystem::config();
+		$result   = FileSystem::config();
 		$this->assertEqual($expected, $result);
 
 		$result = FileSystem::reset();
@@ -37,7 +39,7 @@ class FileSystemTest extends \lithium\test\Integration {
 		$config = array('default' => array('adapter' => '\some\adapter', 'filters' => array()));
 		FileSystem::config($config);
 
-		$result = FileSystem::config();
+		$result   = FileSystem::config();
 		$expected = $config;
 		$this->assertEqual($expected, $result);
 
@@ -49,54 +51,52 @@ class FileSystemTest extends \lithium\test\Integration {
 			'filters' => array('Filter1', 'Filter2')
 		));
 		FileSystem::config($config);
-		$result = FileSystem::config();
+
+		$result   = FileSystem::config();
 		$expected = $config;
 		$this->assertEqual($expected, $result);
 	}
 
-<<<<<<< HEAD:tests/integration/storage/FileSystemTest.php
 	public function testFileSystemWrite() {
-        $config = array('default' => array(
-            'adapter' => 'File',
-            'filters' => array(),
-            'path' => '/tmp'
-        ));
-=======
-	public function testFileBasedConfig() {
-        $config = array('default' => array('adapter' => 'File'));
->>>>>>> parent of b58668d... restructured plugin to work better with adapters and switched adapter to return closures so filters work:tests/integration/extensions/storage/FileSystemTest.php
-        FileSystem::config($config);
+		$config = array('default' => array(
+			'adapter' => 'File',
+			'filters' => array(),
+			'path'    => '/tmp'
+		));
 
-        $result = FileSystem::config();
-        $this->assertEqual($config, $result);
+		FileSystem::config($config);
 
-        $filename = 'test_file';
-        $data = 'Some test content';
+		$result = FileSystem::config();
+		$this->assertEqual($config, $result);
 
-        $this->assertTrue(FileSystem::write('default', $filename, $data));
-        $this->assertEqual($data, FileSystem::read('default', $filename));
-        $this->assertTrue(FileSystem::delete('default', $filename));
+		$filename = 'test_file';
+		$data     = 'Some test content';
+
+		$this->assertTrue(FileSystem::write('default', $filename, $data));
+		$this->assertEqual($data, FileSystem::read('default', $filename));
+		$this->assertTrue(FileSystem::delete('default', $filename));
 	}
 
 	public function testFileSystemRead() {
-        $config = array('default' => array(
-            'adapter' => 'File',
-            'filters' => array(),
-            'path' => '/tmp'
-        ));
+		$config = array('default' => array(
+			'adapter' => 'File',
+			'filters' => array(),
+			'path'    => '/tmp'
+		));
 
-        FileSystem::config($config);
-        $result = FileSystem::config();
-        $this->assertEqual($config, $result);
+		FileSystem::config($config);
+		$result = FileSystem::config();
+		$this->assertEqual($config, $result);
 
-        $filename = 'test_file';
-        $data = 'Some Test content';
+		$filename = 'test_file';
+		$data     = 'Some Test content';
 
-        $result = FileSystem::write('default', $filename, $data);
-	    $this->assertTrue($result);
+		$result = FileSystem::write('default', $filename, $data);
+		$this->assertTrue($result);
 
-	    $result = FileSystem::read('default', $filename);
-	    $this->assertEqual($data, $result);
+		$result = FileSystem::read('default', $filename);
+		$this->assertEqual($data, $result);
 	}
 }
+
 ?>
