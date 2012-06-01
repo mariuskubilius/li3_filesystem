@@ -124,6 +124,11 @@ class FileSystem extends \lithium\core\Adaptable {
 	 */
 	public static function delete($name, $filename, array $options = array()) {
 		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
 		$method   = static::adapter($name)->delete($filename);
 		$params   = compact('filename');
 		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
