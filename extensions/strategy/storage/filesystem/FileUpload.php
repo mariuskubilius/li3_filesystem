@@ -13,7 +13,7 @@ class FileUpload extends \lithium\core\Object {
 		$file     = pathinfo($data['name']);
 		$filename = pathinfo($options['filename']);
 
-		if ($filename['extension'] == $file['extension'] && in_array($file['extension'], $allowed)) {
+		if ($filename['extension'] == $file['extension'] && in_array(strtolower($file['extension']), $allowed)) {
 			$data = file_get_contents($data['tmp_name']);
 		} else {
 			return false;
