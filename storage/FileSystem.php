@@ -98,7 +98,6 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @param mixed $options Options for the method and strategies.
 	 * @return mixed Read results on successful filesystem read, null otherwise
 	 * @filter This method may be filtered.
-	 * @TODO implement
 	 */
 	public static function read($name, $filename, array $options = array()) {
 		$settings = static::config();
@@ -120,9 +119,18 @@ class FileSystem extends \lithium\core\Adaptable {
 	 * @param mixed $options Options for the method and strategies.
 	 * @return boolean True on successful deletion, false otherwise
 	 * @filter This method may be filtered.
-	 * @TODO implement
 	 */
-	public static function delete($name, $filename, array $options = array()) {}
+	public static function delete($name, $filename, array $options = array()) {
+		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
+		$method   = static::adapter($name)->delete($filename);
+		$params   = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+	}
 }
 
 ?>
