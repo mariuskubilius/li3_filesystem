@@ -7,7 +7,7 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-use li3_filesystem\storage\FileSystem;
+use li3_filesystem\extensions\storage\FileSystem;
 use lithium\core\Libraries;
 
 FileSystem::config(array(

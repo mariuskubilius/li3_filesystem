@@ -15,7 +15,7 @@ Include the library in in your `/app/config/bootstrap/libraries.php`
 
 Local filesystem configurations would look something like:
 
-    use li3_filesystem\storage\FileSystem;
+    use li3_filesystem\extensions\storage\FileSystem;
 
     FileSystem::config(array(
         'default' => array(
