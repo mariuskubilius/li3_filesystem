@@ -94,10 +94,6 @@ class FileTest extends \lithium\test\Unit {
 		$this->file->delete($filename);
 		$this->assertFalse(file_exists($filename));
 	}
-
-	public function testFileFormat() {
-		$filename =
-	}
 }
 
 ?>
