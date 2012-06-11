@@ -11,6 +11,7 @@ namespace li3_filesystem\tests\cases\extensions\storage\filesystem\adapter;
 
 use SplFileInfo;
 use li3_filesystem\extensions\storage\filesystem\adapter\File;
+use lithium\core\Libraries;
 
 class FileTest extends \lithium\test\Unit {
 
@@ -22,6 +23,8 @@ class FileTest extends \lithium\test\Unit {
 	 * @return void
 	 */
 	public function skip() {
+		$this->_testDirectory = Libraries::get(true, 'resources') . '/tmp/tests';
+
 		$directory = new SplFileInfo($this->_testDirectory);
 		$accessible = ($directory->isDir() && $directory->isReadable() && $directory->isWritable());
 		$message = 'The File filesystem adapter path does not have the proper permissions.';
