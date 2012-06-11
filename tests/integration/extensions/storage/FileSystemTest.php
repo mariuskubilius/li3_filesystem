@@ -57,46 +57,30 @@ class FileSystemTest extends \lithium\test\Integration {
 		$this->assertEqual($expected, $result);
 	}
 
-	public function testFileSystemWrite() {
+	public function testFileSystemActions() {
 		$config = array('default' => array(
 			'adapter' => 'File',
 			'filters' => array(),
 			'path'    => '/tmp'
 		));
-
 		FileSystem::config($config);
-
-		$result = FileSystem::config();
-		$this->assertEqual($config, $result);
 
 		$filename = 'test_file';
 		$data     = 'Some test content';
 
+		$this->assertFalse(FileSystem::exists('default', $filename));
+
 		$this->assertTrue(FileSystem::write('default', $filename, $data));
-		$this->assertEqual($data, FileSystem::read('default', $filename));
-		$this->assertTrue(FileSystem::delete('default', $filename));
-	}
 
-	public function testFileSystemRead() {
-		$config = array('default' => array(
-			'adapter' => 'File',
-			'filters' => array(),
-			'path'    => '/tmp'
-		));
-
-		FileSystem::config($config);
-		$result = FileSystem::config();
-		$this->assertEqual($config, $result);
-
-		$filename = 'test_file';
-		$data     = 'Some Test content';
-
-		$result = FileSystem::write('default', $filename, $data);
-		$this->assertTrue($result);
+		$this->assertTrue(FileSystem::exists('default', $filename));
 
 		$result = FileSystem::read('default', $filename);
 		$this->assertEqual($data, $result);
+
+		$this->assertTrue(FileSystem::delete('default', $filename));
 	}
+
+
 }
 
 ?>

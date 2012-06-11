@@ -105,6 +105,24 @@ class File extends \lithium\core\Object {
 			return false;
 		};
 	}
+
+	/**
+	 * @param string $filename
+	 * @return boolean
+	 */
+	public function exists($filename) {
+		$path = $this->_config['path'];
+		return function($self, $params) use (&$path) {
+			$path = "{$path}/{$params['filename']}";
+
+			clearstatcache();
+			return file_exists($path);
+		};
+	}
+
+
 }
+
+
 
 ?>
