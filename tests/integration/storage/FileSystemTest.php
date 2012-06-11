@@ -10,11 +10,15 @@ namespace li3_filesystem\tests\integration\storage;
  */
 
 use li3_filesystem\extensions\storage\FileSystem;
+use lithium\core\Libraries;
 
 class FileSystemTest extends \lithium\test\Integration {
 
+	protected $tmpPath;
+
 	public function setUp() {
 		FileSystem::reset();
+		$this->tmpPath = Libraries::get(true, 'resources') . '/tmp/tests';
 	}
 
 	public function tearDown() {
@@ -61,7 +65,7 @@ class FileSystemTest extends \lithium\test\Integration {
 		$config = array('default' => array(
 			'adapter' => 'File',
 			'filters' => array(),
-			'path'    => '/tmp'
+			'path'    => $this->tmpPath
 		));
 		FileSystem::config($config);
 
@@ -79,7 +83,7 @@ class FileSystemTest extends \lithium\test\Integration {
 		$config = array('default' => array(
 			'adapter' => 'File',
 			'filters' => array(),
-			'path'    => '/tmp'
+			'path'    => $this->tmpPath
 		));
 
 		FileSystem::config($config);
