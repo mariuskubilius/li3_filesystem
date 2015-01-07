@@ -112,6 +112,27 @@ class FileSystem extends \lithium\core\Adaptable {
 	}
 
 	/**
+	 * Determines whether a file exists for a specified filesystem configuration
+	 *
+	 * @param string $name Configuration to be used for reading
+	 * @param mixed $filename a full path with filename and extension to be retrieved
+	 * @param mixed $options Options for the method and strategies.
+	 * @return bool true if exists, else false
+	 * @filter This method may be filtered.
+	 */
+	public static function exists($name, $filename, array $options = array()) {
+		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
+		$method = static::adapter($name)->exists($filename, $options);
+		$params = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+	}
+
+	/**
 	 * Deletes file from the specified filesystem configuration
 	 *
 	 * @param string $name Configuration to be used for deletion
